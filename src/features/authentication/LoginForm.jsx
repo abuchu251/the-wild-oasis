@@ -3,8 +3,6 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
-import Logo from "../../ui/Logo";
-import Heading from "../../ui/Heading";
 import SpinnerMini from "../../ui/SpinnerMini";
 import useLogin from "./useLogin";
 
@@ -16,13 +14,19 @@ function LoginForm() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
-    login({ email, password });
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          setEmail("");
+          setPassword("");
+        },
+      }
+    );
   }
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Logo />
-      <Heading as="h4">Log in to your account</Heading>
       <FormRowVertical label="Email address">
         <Input
           type="email"
